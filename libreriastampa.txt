@@ -1,0 +1,3 @@
+Titolo		 Autore		 Genere		 Prezzo
+Bulabula		 Meme		 Fantasy		 11
+Lolol		 Aaaa		 Storico		 23,4

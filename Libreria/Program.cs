@@ -18,7 +18,7 @@ namespace Libreria
             
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu.Start();
         }
     }
 }
