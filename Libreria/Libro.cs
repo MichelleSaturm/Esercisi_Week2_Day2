@@ -19,6 +19,7 @@ namespace Libreria
         public string Titolo { get; set; }
         public string Autore { get; set; }
         public Tipologia Genere { get; set; }
+        public TipoLibro Formato { get; set; }
         public double Prezzo { get; set; }
 
 
@@ -36,7 +37,7 @@ namespace Libreria
             Fantasy
         }
 
-        public enum Formato
+        public enum TipoLibro
         {
             Cartaceo,
             EBook

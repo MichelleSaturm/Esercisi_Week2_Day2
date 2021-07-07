@@ -31,6 +31,10 @@ namespace Libreria
             Console.WriteLine("Inserisci il genere del libro da aggiungere");
             libro.Genere = InserisciGenere();
 
+            //Aggiunta Formato
+            Console.WriteLine("Inserisci il formato del libro da aggiungere");
+            libro.Formato = InserisciFormato();
+
             //Aggiunta Prezzo
             Console.WriteLine("Inserisci il prezzo del libro da aggiungere");
             libro.Prezzo = GestisciPrezzo();
@@ -38,25 +42,24 @@ namespace Libreria
             libri.Add(libro);
         }
 
-        public static void EliminaLibro()
-        {
-            Console.WriteLine("Inserisci il titolo del libro da eliminare");
-            string titolo = Console.ReadLine();
-            Libro libroDaEliminare = CercaLibro(titolo);
-            if (libroDaEliminare != null)
-            {
-                libri.Remove(libroDaEliminare);
-            }
-
-        }
-
-
         public static void ModificaLibro()
         {
             Console.WriteLine("Inserisci il titolo del libro da modificare");
             string titolo = Console.ReadLine();
-            Libro libroDaModificare = CercaLibro(titolo);
-            libri.Remove(libroDaModificare);
+
+            List<Libro> libriDaModificare = CercaLibro(titolo);
+
+            Libro libroDaModificare = new Libro();
+
+            if (libriDaModificare.Count > 1)
+            {
+                libroDaModificare = CercaLibroPerAutore(libriDaModificare);
+                libri.Remove(libroDaModificare);
+            }
+            else
+            {
+                libri.Remove(libriDaModificare[0]);
+            }
             bool continuare = true;
 
             do
@@ -64,7 +67,8 @@ namespace Libreria
                 Console.WriteLine("Premi 1 per modificare il titolo");
                 Console.WriteLine("Premi 2 per modificare l'autore");
                 Console.WriteLine("Premi 3 per modificare il genere");
-                Console.WriteLine("Premi 4 per modificare il prezzo");
+                Console.WriteLine("Premi 4 per modificare il formato");
+                Console.WriteLine("Premi 5 per modificare il prezzo");
                 Console.WriteLine("Premi 0 se hai terminato");
 
                 int scelta = 0;
@@ -89,6 +93,10 @@ namespace Libreria
                         libroDaModificare.Genere = InserisciGenere();
                         break;
                     case 4:
+                        Console.WriteLine("Inserisci il formato modificato");
+                        libroDaModificare.Formato = InserisciFormato();
+                        break;
+                    case 5:
                         Console.WriteLine("Inserisci il prezzo modificato");
                         libroDaModificare.Prezzo = GestisciPrezzo();
                         break;
@@ -101,13 +109,65 @@ namespace Libreria
                 }
             } while (continuare);
             libri.Add(libroDaModificare);
+
+        }
+
+        public static TipoLibro InserisciFormato()
+
+        {
+            Console.WriteLine($"Premi {(int)TipoLibro.Cartaceo} per il formato {TipoLibro.Cartaceo}");
+            Console.WriteLine($"Premi {(int)TipoLibro.EBook} per il formato {TipoLibro.EBook}");
+
+
+            bool isInt = true;
+            int formato = 0;
+            do
+            {
+                isInt = int.TryParse(Console.ReadLine(), out formato);
+            } while (!isInt);
+            return (TipoLibro)formato;
+
+        }
+
+        public static void EliminaLibro()
+        {
+            Console.WriteLine("Inserisci il titolo del libro da eliminare");
+            string titolo = Console.ReadLine();
+
+            List<Libro> libriDaEliminare = CercaLibro(titolo);
+
+            if (libriDaEliminare.Count > 1)
+            {
+                Libro libroDaEliminare = CercaLibroPerAutore(libriDaEliminare);
+                libri.Remove(libroDaEliminare);
+            }
+            else
+            {
+                libri.Remove(libriDaEliminare[0]);
+            }
+        }
+
+        public static Libro CercaLibroPerAutore(List<Libro> libriDaEliminare)
+        {
+            StampaLibri(libriDaEliminare);
+            Console.WriteLine("Inserisci l'autore del libro da eliminare");
+            string autore = Console.ReadLine();
+
+            foreach (Libro libro in libriDaEliminare)
+            {
+                if (libro.Autore == autore)
+                {
+                    return libro;
+                }
+            }
+            return null;
         }
 
         public static void SalvaSuFile()
         {
             using (StreamWriter sw = new StreamWriter(path))
             {
-                sw.WriteLine("Titolo\t\t Autore\t\t Genere\t\t Prezzo");
+                sw.WriteLine("Titolo\t\t Autore\t\t Genere\t\t Formato\t\t Prezzo");
             }
 
             using (StreamWriter sw = new StreamWriter(path, true))
@@ -115,18 +175,18 @@ namespace Libreria
 
                 foreach (Libro libro in libri)
                 {
-                    sw.WriteLine($"{libro.Titolo}\t\t {libro.Autore}\t\t {libro.Genere}\t\t {libro.Prezzo}");
+                    sw.WriteLine($"{libro.Titolo}\t\t {libro.Autore}\t\t {libro.Genere}\t\t {libro.Formato}\t\t {libro.Prezzo}");
                 }
             }
         }
 
         public static void StampaLibri()
         {
-            Console.WriteLine("Titolo\t\t Autore\t\t Genere\t\t Prezzo");
+            Console.WriteLine("Titolo\t\t Autore\t\t Genere\t\t Formato\t\t Prezzo");
             Console.WriteLine();
             foreach (Libro libro in libri)
             {
-                Console.WriteLine($"{libro.Titolo}\t\t {libro.Autore}\t\t {libro.Genere}\t\t {libro.Prezzo}");
+                Console.WriteLine($"{libro.Titolo}\t\t {libro.Autore}\t\t {libro.Genere}\t\t {libro.Formato}\t\t {libro.Prezzo}");
             }
         }
 
@@ -134,7 +194,6 @@ namespace Libreria
         {
             StampaLibri(libri);
         }
-
 
         public static void FiltraLibri()
         {
@@ -159,16 +218,18 @@ namespace Libreria
 
         }
 
-        public static Libro CercaLibro(string titolo)
+        public static List<Libro> CercaLibro(string titolo)
         {
+            List<Libro> libriConTitolo = new List<Libro>();
+
             foreach (Libro libro in libri)
             {
                 if (libro.Titolo == titolo)
                 {
-                    return libro;
+                    libriConTitolo.Add(libro);
                 }
             }
-            return null;
+            return libriConTitolo;
         }
 
         public static Tipologia InserisciGenere()
@@ -237,11 +298,15 @@ namespace Libreria
 
                             libro.Titolo = campiDellaRiga[0];
                             libro.Autore = campiDellaRiga[1];
-                            //Parse(Converte) la string campiDellaStringa a Enum -> il mio enum è typeof(Tipologia)
-                            //l'enum è il tipo "ufficiale"
-                            //Tipologia è la forzatura che do all'enum
+                            // "Parsami"(Convertimi) la string campiDellaStringa a Enum -> il mio enum e typeof(Tipologia)
+                            //                                                     L'enum è il tipo "ufficiale"
+                            //                                                     Tipologia è la forzatura che do all'enum
+                            //             Cast esplicito
                             libro.Genere = (Tipologia)Enum.Parse(typeof(Tipologia), campiDellaRiga[2]);
-                            libro.Prezzo = Convert.ToDouble(campiDellaRiga[3]);
+                            //int aaa =                int.Parse(                    "Pippo");
+                            //             Cast implicito
+                            libro.Formato = (TipoLibro)Enum.Parse(typeof(TipoLibro), campiDellaRiga[3]);
+                            libro.Prezzo = Convert.ToDouble(campiDellaRiga[4]);
 
                             libri.Add(libro);
                         }

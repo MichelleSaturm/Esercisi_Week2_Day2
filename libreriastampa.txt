@@ -1,3 +1,2 @@
-Titolo		 Autore		 Genere		 Prezzo
-Bulabula		 Meme		 Fantasy		 11
-Lolol		 Aaaa		 Storico		 23,4
+Titolo		 Autore		 Genere		 Formato		 Prezzo
+		 Rowling		 Narrativa		 Cartaceo		 0
