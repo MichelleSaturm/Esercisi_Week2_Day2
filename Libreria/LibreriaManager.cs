@@ -134,16 +134,16 @@ namespace Libreria
             Console.WriteLine("Inserisci il titolo del libro da eliminare");
             string titolo = Console.ReadLine();
 
-            List<Libro> libriDaEliminare = CercaLibro(titolo);
+            List<Libro> elimina = CercaLibro(titolo);
 
-            if (libriDaEliminare.Count > 1)
+            if (elimina.Count > 1)
             {
-                Libro libroDaEliminare = CercaLibroPerAutore(libriDaEliminare);
+                Libro libroDaEliminare = CercaLibroPerAutore(elimina);
                 libri.Remove(libroDaEliminare);
             }
             else
             {
-                libri.Remove(libriDaEliminare[0]);
+                libri.Remove(elimina[0]);
             }
         }
 

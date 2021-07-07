@@ -18,8 +18,6 @@ namespace Banca
         {
             ContoCorrente cc = new ContoCorrente();
 
-            //Console.WriteLine("Inserisci il numero del conto");
-            //cc.NumeroConto = Console.ReadLine();
 
             Console.WriteLine("Inserisci il nome dell'intestatario");
             cc.NomeIntestatario = Console.ReadLine();
@@ -33,7 +31,33 @@ namespace Banca
             Console.WriteLine("Inserisci saldo del conto");
             cc.Saldo = GestisciSaldo();
 
+            cc.NumeroConto = InserimentoCodice();
+
             contiCorrenti.Add(cc);
+            Console.WriteLine($"Complimenti. Hai completato la registrazione del Conto Corrente.\nIl codice associato al Conto Corrente è: {cc.NumeroConto}");
+        }
+
+        public static int InserimentoCodice()
+        {
+            List<int> numerirandom = new List<int>();
+            int numrandom = 0;
+            bool flag = false;
+            do
+            {
+                Random random = new Random();
+                numrandom = random.Next(100, 200);
+
+                if (numerirandom.Contains(numrandom))
+                {
+                    flag = false;
+                }
+                else
+                {
+                    numerirandom.Add(numrandom);
+                    flag = true;
+                }
+            } while (!flag);
+            return numrandom;
         }
 
         public static Tipo InserisciTipoDiConto()
@@ -53,22 +77,61 @@ namespace Banca
 
         }
 
-        //public static void EliminaConto()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public static int EliminaConto()
+        {
+            bool isInt = true;
+            int elimina = 0;
+            Console.WriteLine("Inserisci il codice del conto che vuoi eliminare");
+            do
+            {
+                isInt = int.TryParse(Console.ReadLine(), out elimina);
+                if (isInt == false)
+                {
+                    Console.WriteLine("Hai inserito un valore non corretto!\nRiprova");
+                }
+            } while (!isInt);
+
+            ContoCorrente contodaeliminare = CercaConto(elimina);
+            contiCorrenti.Remove(contodaeliminare);
+
+            return elimina;
+
+        }
+
+        public static ContoCorrente CercaConto(int elimina)
+        {
+            bool flag = false;
+            List<ContoCorrente> idutente = new List<ContoCorrente>();
+            do
+            {
+                foreach (ContoCorrente cc in contiCorrenti)
+                {
+                    if (cc.NumeroConto == elimina)
+                    {
+                        idutente.Add(cc);
+                        flag = true;
+                        return cc;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Il numero inserito non corrisponde a nessun conto.");
+                        
+                    }
+                }
+                return null;
+            } while (!flag);
+
+        }
 
         public static void StampaConti()
         {
-            Console.WriteLine("Nome Intestatario\t\t Cognome Intestatario\t\t Tipo di Conto\t\t Saldo");
+            Console.WriteLine("Codice Conto\t Nome Intestatario\t Cognome Intestatario\t Tipo di Conto\t Saldo");
             Console.WriteLine();
             foreach (ContoCorrente cc in contiCorrenti)
             {
-                Console.WriteLine($"{cc.NomeIntestatario}\t\t {cc.CognomeIntestatario}\t\t {cc.TipoDiConto}\t\t {cc.Saldo}");
+                Console.WriteLine($"{cc.NumeroConto}\t\t{cc.NomeIntestatario}\t\t {cc.CognomeIntestatario}\t\t {cc.TipoDiConto}\t\t {cc.Saldo}");
             }
         }
-
-
 
         public static double GestisciSaldo()
         {

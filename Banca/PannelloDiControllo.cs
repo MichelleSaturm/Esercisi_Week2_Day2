@@ -18,6 +18,8 @@ namespace Banca
                 Console.WriteLine("Premi 1 per aggiungere un conto");
                 Console.WriteLine("Premi 2 per eliminare un conto");
                 Console.WriteLine("Premi 3 per visualizzare i conti inseriti");
+                //Console.WriteLine("Premi 4 per fare un prelievo in un conto");
+                //Console.WriteLine("Premi 5 per fare un versamento in un conto");
                 Console.WriteLine("Premi 0 se hai terminato");
 
                 int choice = 0;
@@ -33,11 +35,17 @@ namespace Banca
                         BankManager.InserimentoUtente();
                         break;
                     case 2:
-                        //BankManager.EliminaConto();
+                        BankManager.EliminaConto();
                         break;
                     case 3:
                         BankManager.StampaConti();
                         break;
+                    //case 4:
+                    //    BankManager.Prelievo();
+                    //    break;
+                    //case 5:
+                    //    BankManager.Versamento();
+                    //    break;
                     case 0:
                         continuare = false;
                         break;
