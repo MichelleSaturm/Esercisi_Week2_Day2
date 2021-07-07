@@ -280,20 +280,20 @@ namespace Banca
                     }
                     else
                     {
-                        string[] righeDelMioFile = file.Split("\r\n");
+                        string[] contenutoFile = file.Split("\r\n");
 
-                        for (int i = 1; i < (righeDelMioFile.Length - 1); i++)
+                        for (int i = 1; i < (contenutoFile.Length - 1); i++)
                         {
                             ContoCorrente cc = new ContoCorrente ();
 
-                            string riga = righeDelMioFile[i];
-                            string[] campiDellaRiga = riga.Split("\t\t");
+                            string dati = contenutoFile[i];
+                            string[] righe = dati.Split("\t\t");
 
-                            cc.NumeroConto = Convert.ToInt32(campiDellaRiga[0]);
-                            cc.NomeIntestatario = campiDellaRiga[1];
-                            cc.CognomeIntestatario = campiDellaRiga[2];
-                            cc.TipoDiConto = (Tipo)Enum.Parse(typeof(Tipo), campiDellaRiga[3]);
-                            cc.Saldo = Convert.ToDouble(campiDellaRiga[4]);
+                            cc.NumeroConto = Convert.ToInt32(righe[0]);
+                            cc.NomeIntestatario = righe[1];
+                            cc.CognomeIntestatario = righe[2];
+                            cc.TipoDiConto = (Tipo)Enum.Parse(typeof(Tipo), righe[3]);
+                            cc.Saldo = Convert.ToDouble(righe[4]);
 
                             contiCorrenti.Add(cc);
                         }
