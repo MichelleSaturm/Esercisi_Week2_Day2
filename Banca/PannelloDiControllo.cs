@@ -10,17 +10,33 @@ namespace Banca
     {
         public static void Start()
         {
-            Console.WriteLine("Cosa vuoi fare?");
+            Console.WriteLine("Benvenuto nella tua banca di fiducia!\nQuale operazione vuoi eseguire?");
+            BankManager.LeggiDaFile();
             bool continuare = true;
             do
             {
                 Console.WriteLine();
-                Console.WriteLine("Premi 1 per aggiungere un conto");
-                Console.WriteLine("Premi 2 per eliminare un conto");
-                Console.WriteLine("Premi 3 per visualizzare i conti inseriti");
-                //Console.WriteLine("Premi 4 per fare un prelievo in un conto");
-                //Console.WriteLine("Premi 5 per fare un versamento in un conto");
+                Console.WriteLine("---- Pannello Utente ----");
+                Console.WriteLine("1 - Apri un nuovo Conto");
+                Console.WriteLine("2 - Elimina un Conto");
+                Console.WriteLine("3 - Effettua un Prelievo");
+                Console.WriteLine("4 - Effettua un Versamento");
+
+                Console.WriteLine();
+                Console.WriteLine("---- Pannello Bancario ----");
+                Console.WriteLine("5 - Visualizza i Conti presenti nella Banca ");
+                Console.WriteLine("6 - Salva i Conti su File ");
+
+                Console.WriteLine();
+                Console.WriteLine("---- Uscita ----");
                 Console.WriteLine("Premi 0 se hai terminato");
+
+                Console.WriteLine();
+                Console.Write("Inserisci la tua scelta:");
+
+                
+                
+
 
                 int choice = 0;
                 bool isInt = true;
@@ -38,14 +54,17 @@ namespace Banca
                         BankManager.EliminaConto();
                         break;
                     case 3:
-                        BankManager.StampaConti();
+                        BankManager.Prelievo(); 
                         break;
-                    //case 4:
-                    //    BankManager.Prelievo();
-                    //    break;
-                    //case 5:
-                    //    BankManager.Versamento();
-                    //    break;
+                    case 4:
+                        BankManager.Versamento();
+                        break;
+                    case 5:
+                        BankManager.StampaConti(); 
+                        break;
+                    case 6:
+                        BankManager.StampaSuFile();
+                        break;
                     case 0:
                         continuare = false;
                         break;
