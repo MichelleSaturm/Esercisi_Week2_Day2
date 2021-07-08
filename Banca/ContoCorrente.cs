@@ -28,10 +28,24 @@ namespace Banca
 
         }
 
+        public ContoCorrente(int numeroConto, string nome, string cognome, Tipo tipoDiConto)
+        {
+            NumeroConto = numeroConto;
+            NomeIntestatario = nome;
+            CognomeIntestatario = cognome;
+            TipoDiConto = tipoDiConto;
+            Saldo = 100;
+        }
+
         public enum Tipo
         {
             Corrente,
             Risparmio
+        }
+
+        public void AggiornaSaldo(double importo)
+        {
+            Saldo = Saldo + importo;
         }
     }
 }

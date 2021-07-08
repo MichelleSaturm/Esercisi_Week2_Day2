@@ -1,3 +1,5 @@
 Codice Conto	 Nome	 Cognome	 Tipo di Conto	 Saldo
-153		Luca		  Palla		 Risparmio		 1030
-177		Maria		 Rossi		 Risparmio		 1300
+130		Maria		     Rossi		 Risparmio		 1100
+174		Luigi		     Galli		 Corrente		 400
+198		Carla		     Viola		 Risparmio		 400
+180		Luca		  Neri		 Corrente		 100
